@@ -15,42 +15,41 @@ public class TestRabbitMQ
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    // topic, dynamic route, subscription model
-    @Test
-    public void testTopic()
-    {
-        rabbitTemplate.convertAndSend("topics", "user.save", "user.save route message");
-    }
-
-    // routing
-    @Test
-    public void testRoute()
-    {
-        rabbitTemplate.convertAndSend("logs_direct", "info", "send message to info key");
-    }
-
-    // fanout, Publish/Subscribe
-    @Test
-    public void testFanout()
-    {
-        rabbitTemplate.convertAndSend("logs", "", "Fanout model send message");
-    }
-
-    //work
-    @Test
-    public void testWorker()
-    {
-        for(int i =0; i<10; i++)
-        {
-            rabbitTemplate.convertAndSend("work", "work model");
-        }
-    }
+//    // topic, dynamic route, subscription model
+//    @Test
+//    public void testTopic()
+//    {
+//        rabbitTemplate.convertAndSend("topics", "user.save", "user.save route message");
+//    }
+//
+//    // routing
+//    @Test
+//    public void testRoute()
+//    {
+//        rabbitTemplate.convertAndSend("logs_direct", "info", "send message to info key");
+//    }
+//
+//    // fanout, Publish/Subscribe
+//    @Test
+//    public void testFanout()
+//    {
+//        rabbitTemplate.convertAndSend("logs", "", "Fanout model send message");
+//    }
+//
+//    //work
+//    @Test
+//    public void testWorker()
+//    {
+//        for(int i =0; i<10; i++)
+//        {
+//            rabbitTemplate.convertAndSend("work", "work model");
+//        }
+//    }
 
     // hello world
     @Test
     public void testHello()
     {
-
-        rabbitTemplate.convertAndSend("hello", "hello world");
+        rabbitTemplate.convertAndSend("simple.queue", "hello world");
     }
 }

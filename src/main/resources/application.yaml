@@ -1,9 +1,34 @@
 spring:
   application:
     name: rabbitmq-springboot
+  profiles:
+    active: dev2
+
+---
+spring:
   rabbitmq:
     host: localhost
-    port: 5672
+    port: 5672 # this 5672 is correct, our rabbit mq console management port is 15672
     username: wong
     password: guest
     virtual-host: /wong
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672 # this 5672 is correct, our rabbit mq console management port is 15672
+    username: hmall
+    password: guest
+    virtual-host: /hmall
+  config:
+    activate:
+      on-profile: dev2
+---
+
+
+
+

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 //@RabbitListener(queuesToDeclare = @Queue(value = "hello", durable = "false", autoDelete ="true" ))
-@RabbitListener(queuesToDeclare = @Queue)
+//@RabbitListener(queuesToDeclare = @Queue)
 public class HelloCustomer
 {
-    @RabbitHandler
-    public void received(String message)
-    {
-        System.out.println("message = " + message);
-    }
+//    @RabbitHandler
+//    public void received(String message)
+//    {
+//        System.out.println("message = " + message);
+//    }
 }
