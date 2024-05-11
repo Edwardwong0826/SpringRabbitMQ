@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest(classes = SpringRabbitMQApplication.class)
 @RunWith(SpringRunner.class)
-public class TestRabbitMQ
+public class TestWorkModelRabbitMQ
 {
     // inject rabbitTemplate
     @Autowired
@@ -36,15 +36,6 @@ public class TestRabbitMQ
 //        rabbitTemplate.convertAndSend("logs", "", "Fanout model send message");
 //    }
 //
-//    //work
-//    @Test
-//    public void testWorker()
-//    {
-//        for(int i =0; i<10; i++)
-//        {
-//            rabbitTemplate.convertAndSend("work", "work model");
-//        }
-//    }
 
     // hello world
     @Test
@@ -52,4 +43,19 @@ public class TestRabbitMQ
     {
         rabbitTemplate.convertAndSend("simple.queue", "hello world");
     }
+
+    // work queue model
+    // the consumer will consume the message 1 times only like round-robin
+    //
+    @Test
+    public void testWorker() throws InterruptedException {
+        for(int i = 0; i < 50; i++)
+        {
+            String queueName = "work.queue";
+            String message = "work model " + i;
+            rabbitTemplate.convertAndSend(queueName,message);
+            Thread.sleep(20);
+        }
+    }
+
 }
