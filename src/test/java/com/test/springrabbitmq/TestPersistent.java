@@ -30,9 +30,13 @@ public class TestPersistent {
         // RabbitMQ after 3.8.26 version, the exchange, queue is by default create with durable
         // for the data to be persistent, exchange, queue and send message all need to be durable
 
-        // in application.yaml need to disable publisher confirm and return when test page out, else will very slow when test this page out
-        //  publisher-confirm-type: correlated
-        //  publisher-returns: true
+        // In application.yaml need to disable publisher confirm and return when test page out, else will very slow when test this page out
+        // publisher-confirm-type: correlated
+        // publisher-returns: true
+
+        // Start from RabbitMQ 3.12, all classic queue when create will be default to lazy queue already and the performance almost the same with non-lazy queue
+        // So that message will straight persist to disk and keep small amount messages in memory (up to 2048)
+        // More refer to official documentation https://www.rabbitmq.com/docs/lazy-queues
 
         for(int i = 0; i < 1000000; i++){
             rabbitTemplate.convertAndSend("simple.queue", message);

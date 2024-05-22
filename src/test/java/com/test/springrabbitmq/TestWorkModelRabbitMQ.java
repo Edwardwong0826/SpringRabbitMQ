@@ -44,9 +44,14 @@ public class TestWorkModelRabbitMQ
         rabbitTemplate.convertAndSend("simple.queue", "hello world");
     }
 
+    @Test
+    public void testHello2()
+    {
+        rabbitTemplate.convertAndSend("simple.queue2", "hello world");
+    }
+
     // work queue model
     // the consumer will consume the message 1 times only like round-robin
-    //
     @Test
     public void testWorker() throws InterruptedException {
         for(int i = 0; i < 50; i++)
