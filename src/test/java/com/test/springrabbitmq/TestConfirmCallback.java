@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+// Publisher confirm is to make sure the publisher send message is in queue and persistent in disk
+// successfully persistent RabbitMQ only will send back confirm
+// Publisher confirm mode
+// 1. Single confirm
+// 2. Multiple confirm
+// 3. asynchronous multiple confirm
 @SpringBootTest(classes = SpringRabbitMQApplication.class)
 @RunWith(SpringRunner.class)
 public class TestConfirmCallback {

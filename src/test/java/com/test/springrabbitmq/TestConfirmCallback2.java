@@ -1,6 +1,5 @@
 package com.test.springrabbitmq;
 
-import lombok.extern.slf4j.XSlf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -11,6 +10,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
+// Publisher confirm is to make sure the publisher send message is in queue and persistent in disk
+// successfully persistent RabbitMQ only will send back confirm
+// Publisher confirm mode
+// 1. Single confirm
+// 2. Multiple confirm
+// 3. asynchronous multiple confirm
 @SpringBootTest(classes = SpringRabbitMQApplication.class)
 @RunWith(SpringRunner.class)
 public class TestConfirmCallback2 implements RabbitTemplate.ConfirmCallback {
@@ -35,8 +40,13 @@ public class TestConfirmCallback2 implements RabbitTemplate.ConfirmCallback {
         Thread.sleep(2000);
     }
 
-    // depends on which situation, received ack or nack, we need to retry based our logic
-    // example event sent into the queue and persist and return ack, but other queue cannot consume the event, then is the other queue problem
+    // Depends on which situation, received ack or nack, we need to retry based our logic
+    // Example event sent into the queue and persist and return ack, but other queue cannot consume the event, then is the other queue problem
+
+    // For use RabbitMQ library, need to manually add the ack and nack callback to channel
+    // channel.addConfirmListener(ConfirmCallback ack, ConfirmCallback nack);
+    // channel.basicPublish(Exchange exchange, RoutingKey key ..., Boolean x, AMQP.BasicProperties prop, byte[] body)
+    // below is use Spring AMQP override the RabbitTemplate confirm method
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         System.out.println("接收到了RabbitMQ的回调id:{}" + correlationData);
