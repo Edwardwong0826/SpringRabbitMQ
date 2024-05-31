@@ -43,21 +43,25 @@ public class TestConfirmCallback3 {
 
     }
 
+    // 1. if message sent to exchange and route failed, it will through publisher return to tell the cause and then return ACK
+    // 2. Non-durable message sent to exchange and in queue, return ACK
+    // 3. Durable message send to exchange and done persistent in disk, return ACK
+    // other reason return NACK
     @Test
     public void testConfirmCallback() throws InterruptedException {
 
-        String exchangeName = "hmall.direct";
+        String exchangeName = "hmall.direct"; //only got nack when not able delivered to an exchange
         // inside no args constructor will create UUID for us
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 
         rabbitTemplate.convertAndSend(
                 exchangeName,//交换机
-                "red2",//路由键 , this routing key does not exist, is to test ack / nack
+                "red2",//路由键 , this routing key does not exist
                 "hello",
                 correlationData
         );
 
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
     }
 
     // Depends on which situation, received ack or nack, we need to retry based our logic
