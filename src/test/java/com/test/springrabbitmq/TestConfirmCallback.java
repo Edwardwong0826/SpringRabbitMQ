@@ -29,13 +29,14 @@ public class TestConfirmCallback {
         // inside no args constructor will create UUID for us
         CorrelationData cd = new CorrelationData();
 
+        // whenever the message is reach or not reach to exchange or not, confirm will be callback
         // After java 8, getFuture no more add callback method, so there is no onSuccess and onFailure,so need to research how do this
         cd.getFuture().whenComplete((result,exception)->{
             System.out.println("Received confirm callback");
             if(result.isAck()){
                 System.out.println("Message send success, code is ack");
             } else {
-                System.out.println("Message send fail, code is nack, reason :{}" +  result.getReason());
+                System.out.println("Message send fail, code is nack, reason : " +  result.getReason());
             }
 
         });

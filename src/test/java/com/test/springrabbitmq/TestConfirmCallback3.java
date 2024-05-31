@@ -1,5 +1,6 @@
 package com.test.springrabbitmq;
 
+import jakarta.annotation.PostConstruct;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -18,10 +19,29 @@ import java.util.UUID;
 // 3. asynchronous multiple confirm
 @SpringBootTest(classes = SpringRabbitMQApplication.class)
 @RunWith(SpringRunner.class)
-public class TestConfirmCallback2 implements RabbitTemplate.ConfirmCallback {
+public class TestConfirmCallback3 {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @PostConstruct
+    public void init(){
+
+        // whenever the message is reach or not reach to exchange or not, confirm will be callback
+        // when we use anonymous class and lambda method way to set callback, the class no need to implement the RabbitTemplate.ConfirmCallback
+        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+
+                System.out.println("接收到了RabbitMQ的回调id : " + correlationData.getId());
+                if (ack) {
+                    System.out.println("消息成功消费");
+                } else {
+                    System.out.println("消息消费失败 : "+ cause);
+                }
+
+            }
+        );
+
+    }
 
     @Test
     public void testConfirmCallback() throws InterruptedException {
@@ -47,17 +67,13 @@ public class TestConfirmCallback2 implements RabbitTemplate.ConfirmCallback {
     // channel.addConfirmListener(ConfirmCallback ack, ConfirmCallback nack);
     // channel.basicPublish(Exchange exchange, RoutingKey key ..., Boolean x, AMQP.BasicProperties prop, byte[] body)
     // below is use Spring AMQP override the RabbitTemplate confirm method
-
-    // whenever the message is reach or not reach to exchange or not, confirm will be callback
-    @Override
-    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        System.out.println("接收到了RabbitMQ的回调id : " + correlationData);
-        if (ack) {
-            System.out.println("消息成功消费");
-        } else {
-            System.out.println("消息消费失败 : "+ cause);
-        }
-    }
-
-
+//    @Override
+//    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+//        System.out.println("接收到了RabbitMQ的回调id:{}" + correlationData);
+//        if (ack) {
+//            System.out.println("消息成功消费");
+//        } else {
+//            System.out.println("消息消费失败: {}"+ cause);
+//        }
+//    }
 }
