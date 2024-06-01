@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-// Publisher confirm is to make sure the publisher send message is in queue and persistent in disk
-// successfully persistent RabbitMQ only will send back confirm
+// Publisher confirm is to make sure the publisher send message to the exchange
 // Publisher confirm mode
 // 1. Single confirm
 // 2. Multiple confirm
@@ -22,6 +21,7 @@ public class TestConfirmCallback {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    // don't use this class to test publisher confirm
     @Test
     public void testConfirmCallback() throws InterruptedException {
 
@@ -34,9 +34,9 @@ public class TestConfirmCallback {
         cd.getFuture().whenComplete((result,exception)->{
             System.out.println("Received confirm callback");
             if(result.isAck()){
-                System.out.println("Message send success, code is ack");
+                System.out.println("Message send to exchange success, code is ack");
             } else {
-                System.out.println("Message send fail, code is nack, reason : " +  result.getReason());
+                System.out.println("Message send to exchange fail, code is nack, reason : " +  result.getReason());
             }
 
         });

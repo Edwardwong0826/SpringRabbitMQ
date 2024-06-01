@@ -13,6 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
+// Publisher Return
+// is to ensure message is it send to queue
+// 1. Message got send to MQ, but route failed due to wrong routing key or no binding queue, publisher return callback send the cause and return ACK
 @Slf4j
 @SpringBootTest(classes = SpringRabbitMQApplication.class)
 @RunWith(SpringRunner.class)

@@ -10,8 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
-// Publisher confirm is to make sure the publisher send message is in queue and persistent in disk
-// successfully persistent RabbitMQ only will send back confirm
+// Publisher confirm is to make sure the publisher send message to the exchange
 // Publisher confirm mode
 // 1. Single confirm
 // 2. Multiple confirm
@@ -23,10 +22,7 @@ public class TestConfirmCallback2 implements RabbitTemplate.ConfirmCallback {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    // 1. if message sent to exchange and route failed, it will through publisher return to tell the cause and then return ACK
-    // 2. Non-durable message sent to exchange and in queue, return ACK
-    // 3. Durable message send to exchange and done persistent in disk, return ACK
-    // other reason return NACK
+    // don't use this class to test publisher confirm
     @Test
     public void testConfirmCallback() throws InterruptedException {
 
@@ -57,9 +53,9 @@ public class TestConfirmCallback2 implements RabbitTemplate.ConfirmCallback {
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         System.out.println("接收到了RabbitMQ的回调id : " + correlationData);
         if (ack) {
-            System.out.println("消息成功消费");
+            System.out.println("消息成功发送到exchange");
         } else {
-            System.out.println("消息消费失败 : "+ cause);
+            System.out.println("消息失败发送到exchange : "+ cause);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.test.springrabbitmq;
 
-import com.test.springrabbitmq.config.ReturnCallBackConfig;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -14,6 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
+// Publisher Return
+// is to ensure message is it send to queue
+// 1. Message got send to MQ, but route failed due to wrong routing key or no binding queue, publisher return callback send the cause and return ACK
 @Slf4j
 @SpringBootTest(classes = SpringRabbitMQApplication.class)
 @RunWith(SpringRunner.class)
@@ -21,14 +23,6 @@ public class TestReturnCallback{
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    ReturnCallBackConfig returnCallBackConfig;
-
-    @PostConstruct
-    public void init(){
-        rabbitTemplate.setReturnsCallback(returnCallBackConfig);
-    }
 
     @Test
     public void testReturnCallback() throws InterruptedException {
