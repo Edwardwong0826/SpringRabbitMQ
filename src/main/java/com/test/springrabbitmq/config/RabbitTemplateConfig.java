@@ -34,11 +34,15 @@ public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback, Rab
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
 
-        System.out.println("接收到了RabbitMQ的回调id : " + correlationData.getId());
+        // some queue does not bind to any exchange and bind with default exchange, so when send message to that queue does not put correlation data
+        if(correlationData != null){
+            System.out.println("接收到了RabbitMQ的回调id : " + correlationData.getId());
+        }
+
         if (ack) {
             System.out.println("消息成功发送到exchange");
         } else {
-            System.out.println("消息失败发送到exchange : "+ cause);
+            System.out.println("消息失败发送到exchange : " + cause);
         }
 
     }
