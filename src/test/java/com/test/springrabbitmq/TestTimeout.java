@@ -27,11 +27,12 @@ public class TestTimeout {
     @Test
     public void testTimeout(){
 
-        // we can set the message timeout during the queue creation
-        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+
         for(int i =0; i < 100; i ++) {
+            // we can set the message timeout during the queue creation
+            CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
             rabbitTemplate.convertAndSend(
-                    EXCHANGE_NAME,//交换机
+                    EXCHANGE_NAME,
                     ROUTING_KEY,
                     "Test timeout" + i,
                     correlationData

@@ -28,8 +28,8 @@ public class TestRabbitMQReliability {
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 
         rabbitTemplate.convertAndSend(
-                exchangeName, //交换机
-                "red", //路由键
+                exchangeName,
+                "red",
                 "hello",
                 correlationData
         );
@@ -46,8 +46,8 @@ public class TestRabbitMQReliability {
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 
         rabbitTemplate.convertAndSend(
-                exchangeName, //交换机
-                "red", //路由键
+                exchangeName,
+                "red",
                 "hello",
                 correlationData
         );
@@ -65,8 +65,8 @@ public class TestRabbitMQReliability {
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 
         rabbitTemplate.convertAndSend(
-                exchangeName, //交换机
-                "red2", //路由键 , this routing key does not exist
+                exchangeName,
+                "red2", // this routing key does not exist
                 "hello",
                 correlationData
         );
