@@ -21,9 +21,9 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672 # this 5672 is correct, our rabbit mq console management port is 15672
-    username: hmall
+    username: guest
     password: guest
-    virtual-host: /hmall
+    virtual-host: /
     connection-timeout: 1s
     template:
       retry: # by default the retry max attempts is 3 times only, amqp retry was using blocking to retry
