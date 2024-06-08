@@ -11,16 +11,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitTemplateTransactionalConfig {
 
-    @Bean
-    public RabbitTransactionManager transactionManager(CachingConnectionFactory connectionFactory){
-        return new RabbitTransactionManager(connectionFactory);
-    }
-
-    @Bean
-    public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory){
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setChannelTransacted(true);
-        return rabbitTemplate;
-
-    }
+ //When want to test transactional only uncomment, else other testing will block by having error throw by Spring
+ // CachingConnectionFactory       : Could not configure the channel to receive publisher confirms
+//    @Bean
+//    public RabbitTransactionManager transactionManager(CachingConnectionFactory connectionFactory){
+//        return new RabbitTransactionManager(connectionFactory);
+//    }
+//
+//    @Bean
+//    public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory){
+//        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+//        rabbitTemplate.setChannelTransacted(true);
+//        return rabbitTemplate;
+//
+//    }
 }
