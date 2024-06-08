@@ -38,9 +38,15 @@ public class TestPersistent {
         // So that message will straight persist to disk and keep small amount messages in memory (up to 2048)
         // More refer to official documentation https://www.rabbitmq.com/docs/lazy-queues
 
+        // Lazy queue is a queue type that it's durability was Durable instead of Transient
+        // from the official documentation it mentioned
+        // A "lazy queue" is a classic queue which is running in lazy mode. When the "lazy" queue mode is set,
+        // messages in classic queues are moved to disk as early as practically possible. These messages are loaded into RAM only when they are requested by consumers.
+        // which also means non-lazy queue persistent was wait until it needed to persist only will persist
         for(int i = 0; i < 1000000; i++){
             rabbitTemplate.convertAndSend("simple.queue", message);
         }
 
     }
+
 }

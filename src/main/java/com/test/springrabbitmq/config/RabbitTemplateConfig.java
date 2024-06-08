@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 // Publisher Return
 // is to ensure message is it send to queue
 // 1. Message got send to MQ, but route failed due to wrong routing key or no binding queue, publisher return callback send the cause and return ACK
+
+// For delay message check SpringRabbitMQ2 and SpringRabbitMQConsumer-2, also need to start standalone some-rabbit3 container in docker
 @Slf4j
 @Configuration
 public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
