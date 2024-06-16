@@ -56,6 +56,14 @@
 			<version>3.3.0</version>
 		</dependency>
 
+		<!--
+		RabbitMQ stream queue need to import differently, because spring didn't integrate RabbitMQ stream client into spring AMQP
+		-->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>stream-client</artifactId>
+			<version>0.16.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
