@@ -3,11 +3,14 @@ package com.test.springrabbitmq.config;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.logging.Logger;
 
 // Publisher confirm is to make sure the publisher send message to the exchange
 // Publisher confirm mode
@@ -20,13 +23,12 @@ import org.springframework.context.annotation.Configuration;
 // 1. Message got send to MQ, but route failed due to wrong routing key or no binding queue, publisher return callback send the cause and return ACK
 
 // For delay message check SpringRabbitMQ2 and SpringRabbitMQConsumer-2, also need to start standalone some-rabbit3 container in docker
-@Slf4j
 @Configuration
 public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RabbitTemplateConfig.class);
     @PostConstruct
     public void initRabbitTemplate(){
         rabbitTemplate.setConfirmCallback(this);
@@ -46,7 +48,6 @@ public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback, Rab
         } else {
             System.out.println("消息失败发送到exchange : " + cause);
         }
-
     }
 
     @Override
